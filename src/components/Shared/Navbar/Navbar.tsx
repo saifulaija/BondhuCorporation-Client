@@ -14,7 +14,7 @@ const Navbar = () => {
   });
 
   return (
-   <Box sx={{borderBottom:'1px solid lightgray'}}>
+   <Box sx={{borderBottom:'1px solid lightgray',   background:"#F4F7FE",}}>
      <Container>
       <Stack
         direction="row"
