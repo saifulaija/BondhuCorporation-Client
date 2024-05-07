@@ -18,11 +18,12 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { userLogin } from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.services";
-import PHForm from "@/components/Forms/PHForm";
-import PHInput from "@/components/Forms/PHInput";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { registerSubscriber } from "@/services/actions/registerSubscriber";
+import BCForm from "@/components/Forms/BCForm";
+import BCInput from "@/components/Forms/BCInput";
 
 export const subscriberValidationSchema = z.object({
   name: z.string().min(1, "Please enter your name"),
@@ -103,17 +104,17 @@ const RegisterPage = () => {
               Register Here
             </Typography>
           </Stack>
-          <PHForm
+          <BCForm
             onSubmit={handleRegister}
             resolver={zodResolver(validationSchema)}
             defaultValues={defaultValues}
           >
             <Grid container spacing={2} my={1}>
               <Grid item md={12}>
-                <PHInput label="Name" fullWidth={true} name="subscriber.name" />
+                <BCInput label="Name" fullWidth={true} name="subscriber.name" />
               </Grid>
               <Grid item md={6}>
-                <PHInput
+                <BCInput
                   label="Email"
                   type="email"
                   fullWidth={true}
@@ -121,7 +122,7 @@ const RegisterPage = () => {
                 />
               </Grid>
               <Grid item md={6}>
-                <PHInput
+                <BCInput
                   label="Password"
                   type="password"
                   fullWidth={true}
@@ -129,7 +130,7 @@ const RegisterPage = () => {
                 />
               </Grid>
               <Grid item md={6}>
-                <PHInput
+                <BCInput
                   label="ContactNumber"
                   type="tel"
                   fullWidth={true}
@@ -137,7 +138,7 @@ const RegisterPage = () => {
                 />
               </Grid>
               <Grid item md={6}>
-                <PHInput
+                <BCInput
                   label="Address"
                   type="text"
                   fullWidth={true}
@@ -151,7 +152,7 @@ const RegisterPage = () => {
             <Typography component="p" fontWeight={300}>
               Do you have an account? <Link href="/login">Login</Link>
             </Typography>
-          </PHForm>
+          </BCForm>
         </Box>
       </Stack>
     </Container>

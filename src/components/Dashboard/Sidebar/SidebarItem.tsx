@@ -23,7 +23,7 @@ import { usePathname } from "next/navigation";
     return (
       <Link href={linkPath}>
         <ListItem disablePadding sx={{
-            ...(pathName===linkPath ? {borderRight:"3px solid #da5a47","& svg":{color:"#da5a47"}}:{})
+            ...(pathName===linkPath ? {borderRight:"3px solid #da5a47","& svg":{color:"#da5a47"}}:{}),mb:1
         }}>
           <ListItemButton>
             <ListItemIcon>

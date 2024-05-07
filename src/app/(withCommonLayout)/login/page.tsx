@@ -17,11 +17,13 @@ import { userLogin } from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.services";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import PHForm from "@/components/Forms/PHForm";
-import PHInput from "@/components/Forms/PHInput";
+
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
+import BCForm from "@/components/Forms/BCForm";
+import BCInput from "@/components/Forms/BCInput";
 
 const validationSchema = z.object({
   email: z.string().email("Please enter valid email address"),
@@ -88,14 +90,14 @@ const LoginPage = () => {
             error && (<Alert severity="error">{error}</Alert>)
            }
           </Box>
-          <PHForm
+          <BCForm
             onSubmit={handleLogin}
             resolver={zodResolver(validationSchema)}
             defaultValues={defaultValues}
           >
             <Grid container spacing={2} my={1}>
               <Grid item md={6}>
-                <PHInput
+                <BCInput
                   name="email"
                   label="Email"
                   type="email"
@@ -103,7 +105,7 @@ const LoginPage = () => {
                 />
               </Grid>
               <Grid item md={6}>
-                <PHInput
+                <BCInput
                   name="password"
                   label="Password"
                   type="password"
@@ -121,7 +123,7 @@ const LoginPage = () => {
               Do&apos;t have an account?{" "}
               <Link href="/register">Create a new account</Link>
             </Typography>
-          </PHForm>
+          </BCForm>
         </Box>
       </Stack>
     </Container>

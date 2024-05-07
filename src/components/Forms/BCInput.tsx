@@ -11,7 +11,7 @@ type TInputProps = {
   sx?:SxProps,
   placeholder?:string
 };
-const PHInput = ({
+const BCInput = ({
   name,
   label,
   type = "text",
@@ -44,4 +44,4 @@ const PHInput = ({
   );
 };
 
-export default PHInput;
+export default BCInput;

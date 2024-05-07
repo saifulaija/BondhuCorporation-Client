@@ -6,7 +6,12 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupIcon from "@mui/icons-material/Group";
 import MedicalInformationIcon from "@mui/icons-material/MedicalInformation";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import ReviewsIcon from "@mui/icons-material/Reviews";
+import ContactMailIcon from '@mui/icons-material/ContactMail';
+import SellIcon from '@mui/icons-material/Sell';
+import LocalMallIcon from '@mui/icons-material/LocalMall';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import CorporateFareIcon from '@mui/icons-material/CorporateFare';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 import TryIcon from "@mui/icons-material/Try";
 import { USER_ROLE } from "@/constants/role";
@@ -23,8 +28,13 @@ export const drawerItems = (role: UserRole): DrawerItem[] => {
           icon: DashboardIcon,
         },
         {
-          title: "Manage Users",
-          path: `${role}/manage-users`,
+          title: "Admins",
+          path: `${role}/add_admin`,
+          icon: GroupIcon,
+        },
+        {
+          title: "Employees",
+          path: `${role}/add_employee`,
           icon: GroupIcon,
         }
       );
@@ -40,22 +50,23 @@ export const drawerItems = (role: UserRole): DrawerItem[] => {
         {
           title: "Orders",
           path: `${role}/orders`,
-          icon: TryIcon,
+          icon: BookmarkBorderIcon,
         },
         {
           title: "Sells",
           path: `${role}/sells`,
-          icon: MedicalInformationIcon,
+          icon: LocalMallIcon,
+        },
+        
+        {
+          title: "Hr Department",
+          path: `${role}/human_resources`,
+          icon: GroupAddIcon,
         },
         {
           title: "Mills",
           path: `${role}/mills`,
-          icon: CalendarMonthIcon,
-        },
-        {
-          title: "Hr Department",
-          path: `${role}/human_resources`,
-          icon: CalendarMonthIcon,
+          icon:  CorporateFareIcon ,
         },
        
       );
