@@ -130,9 +130,7 @@ const AdminModal = ({ open, setOpen }: TProps) => {
               />
             </Grid>
 
-            <Grid item xs={12} sm={12} md={4}>
-              <BCFileUploader name="file" label="Upload File" />
-            </Grid>
+           
           </Grid>
 
          <Box sx={{display:'flex',justifyContent:'center', alignItems:'center'}}>

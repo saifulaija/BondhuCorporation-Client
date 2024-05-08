@@ -35,24 +35,10 @@ const AdminPage = () => {
   const [deleteAdmin] = useDeleteAdminsMutation();
 
   const admins = data?.admins;
+
   const meta = data?.meta;
 
   const columns: GridColDef[] = [
-    {
-      field: "profilePhoto",
-      headerName: "Image",
-      flex: 1,
-      headerAlign: "left",
-
-      align: "center",
-      renderCell: ({ row }) => {
-        return (
-          <Box>
-            <Avatar src={row.profilePhoto} alt="image" />
-          </Box>
-        );
-      },
-    },
     { field: "name", headerName: "Name", flex: 1 },
     { field: "email", headerName: "Email", flex: 1 },
 
@@ -71,10 +57,7 @@ const AdminPage = () => {
         return (
           <ButtonGroup>
             <Link href={`/dashboard/super_admin/admins/edit/${row?.id}`}>
-              <IconButton
-              
-                aria-label="edit"
-              >
+              <IconButton aria-label="edit">
                 <EditNoteIcon />
               </IconButton>
             </Link>
@@ -118,17 +101,22 @@ const AdminPage = () => {
         <Fab
           onClick={() => setIsModalOpen(true)}
           color="primary"
-          variant="extended"
-          size="large"
+          variant="circular"
+          size="small"
         >
-          <AddIcon sx={{ mr: 1 }} /> Add Admin
+          <AddIcon />
         </Fab>
         <AdminModal open={isModalOpen} setOpen={setIsModalOpen} />
       </Stack>
 
       {!isLoading ? (
-        <Box sx={{ my: 1 }}>
-          <DataGrid rows={admins} columns={columns} hideFooter={true} />
+        <Box sx={{ my: 3 }}>
+          <DataGrid
+            rows={admins}
+            columns={columns}
+            hideFooter={true}
+            autoHeight={true}
+          />
         </Box>
       ) : (
         <CustomLoader />
