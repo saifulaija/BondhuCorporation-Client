@@ -26,13 +26,10 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { toast } from "sonner";
 import AddIcon from "@mui/icons-material/Add";
 import CustomLoader from "@/components/Shared/UI/CustomLoader/CustomLoader";
-
-
+import Link from "next/link";
 
 const AdminPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-
 
   const { data, isLoading } = useGetAllAdminsQuery({});
   const [deleteAdmin] = useDeleteAdminsMutation();
@@ -73,13 +70,14 @@ const AdminPage = () => {
       renderCell: ({ row }) => {
         return (
           <ButtonGroup>
-            <IconButton
-              onClick={() => handleDelete(row.id)}
-              aria-label="delete"
-              color="primary"
-            >
-              <EditNoteIcon />
-            </IconButton>
+            <Link href={`/dashboard/super_admin/admins/edit/${row?.id}`}>
+              <IconButton
+              
+                aria-label="edit"
+              >
+                <EditNoteIcon />
+              </IconButton>
+            </Link>
             <IconButton
               onClick={() => handleDelete(row.id)}
               aria-label="delete"
@@ -108,34 +106,32 @@ const AdminPage = () => {
 
   return (
     <Box>
-   <Stack
-      spacing={1} // Increased spacing between elements
-      direction="column" // Stack items vertically
-      alignItems="center" // Center items horizontally
-      mt={1} // Add margin at the top
-    >
-      <Typography variant="h4" color="primary" gutterBottom>
-        Admin Management
-      </Typography>
-      <Fab
-        onClick={() => setIsModalOpen(true)}
-        color="primary"
-        variant="extended"
-        size="large"
+      <Stack
+        spacing={1} // Increased spacing between elements
+        direction="column" // Stack items vertically
+        alignItems="center" // Center items horizontally
+        mt={1} // Add margin at the top
       >
-        <AddIcon sx={{ mr: 1 }} /> Add Admin
-      </Fab>
-      <AdminModal open={isModalOpen} setOpen={setIsModalOpen} />
-    
-     
-    </Stack>
+        <Typography variant="h4" color="primary" gutterBottom>
+          Admin Management
+        </Typography>
+        <Fab
+          onClick={() => setIsModalOpen(true)}
+          color="primary"
+          variant="extended"
+          size="large"
+        >
+          <AddIcon sx={{ mr: 1 }} /> Add Admin
+        </Fab>
+        <AdminModal open={isModalOpen} setOpen={setIsModalOpen} />
+      </Stack>
 
       {!isLoading ? (
         <Box sx={{ my: 1 }}>
           <DataGrid rows={admins} columns={columns} hideFooter={true} />
         </Box>
       ) : (
-       <CustomLoader/>
+        <CustomLoader />
       )}
     </Box>
   );
