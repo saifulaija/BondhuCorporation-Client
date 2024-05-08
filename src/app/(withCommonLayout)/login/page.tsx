@@ -96,7 +96,7 @@ const LoginPage = () => {
             defaultValues={defaultValues}
           >
             <Grid container spacing={2} my={1}>
-              <Grid item md={6}>
+              <Grid item xs={12} md={6}>
                 <BCInput
                   name="email"
                   label="Email"
@@ -104,7 +104,7 @@ const LoginPage = () => {
                   fullWidth={true}
                 />
               </Grid>
-              <Grid item md={6}>
+              <Grid item xs={12} md={6}>
                 <BCInput
                   name="password"
                   label="Password"

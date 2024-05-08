@@ -17,7 +17,6 @@ export const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.admin],
     }),
-
     getAllAdmins: build.query({
       query: (arg: Record<string, any>) => ({
         url: "/admin",
@@ -38,7 +37,7 @@ export const adminApi = baseApi.injectEndpoints({
         url: `/admin/soft/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: [tagTypes.doctor],
+      invalidatesTags: [tagTypes.admin],
     }),
     //get single doctor
     getAdmin: build.query({
@@ -55,11 +54,13 @@ export const adminApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: data.body,
       }),
-      invalidatesTags: [tagTypes.doctor],
+      invalidatesTags: [tagTypes.admin],
     }),
   }),
 });
 
 export const {
-useCreateAdminMutation
+useCreateAdminMutation,
+useGetAllAdminsQuery,
+useDeleteAdminsMutation
 } = adminApi;
