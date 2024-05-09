@@ -1,4 +1,11 @@
-import { Box, Button, Container, Divider, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Typography,
+} from "@mui/material";
 import { Designation, Gender, MaritalStatus } from "@/types/common";
 import { FieldValues } from "react-hook-form";
 
@@ -25,10 +32,11 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
   const [createEmployee] = useCreateEmployeeMutation();
   const handleFormSubmit = async (values: FieldValues) => {
     values.employee.dob = dateFormatter(values.employee.dob);
-    values.employee.joining_date = dateFormatter(values.employee.joining_date);
+    values.employee.joing_date = dateFormatter(values.employee.joing_date);
     values.employee.salary = Number(values.employee.salary);
     values.employee.experience = Number(values.employee.experience);
-    console.log(values);
+  
+
     const data = modifyPayload(values);
     try {
       const res = await createEmployee(data).unwrap();
@@ -48,20 +56,17 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
       name: "",
       contactNumber: "",
       address: "",
-
       gender: "",
       maritalStatus: "",
-
       qualification: "",
       designation: "",
-      joining_date: "",
+      joing_date: "",
       dob: "",
       experience: 0,
-      emergencyContactName: "",
+      emergencyContactNumber: "",
       salary: 0,
       bankAccountNumber: "",
       bankName: "",
-
       profilePhoto: "",
     },
     password: "",
@@ -72,7 +77,9 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
       <Container maxWidth="lg">
         <BCForm onSubmit={handleFormSubmit} defaultValues={defaultValues}>
           <Divider>
-            <Typography variant="h5" fontWeight={300}>Personal Information</Typography>
+            <Typography variant="h5" fontWeight={300}>
+              Personal Information
+            </Typography>
           </Divider>
           <Grid container spacing={2} sx={{ my: 1 }}>
             <Grid item xs={12} sm={12} md={4}>
@@ -115,7 +122,11 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
-              <BCDatePicker name="employee.dob"  required={true} label="Date Of Birth" />
+              <BCDatePicker
+                name="employee.dob"
+                required={true}
+                label="Date Of Birth"
+              />
             </Grid>
 
             <Grid item xs={12} sm={12} md={4}>
@@ -157,9 +168,10 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
             </Grid>
           </Grid>
 
-       
           <Divider>
-            <Typography variant="h5" fontWeight={300}>Professional Information</Typography>
+            <Typography variant="h5" fontWeight={300}>
+              Professional Information
+            </Typography>
           </Divider>
 
           <Grid container spacing={2} sx={{ my: 1 }}>
@@ -189,14 +201,13 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
                 name="employee.salary"
                 type="number"
                 label="Salary"
-           
                 fullWidth={true}
                 sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <BCDatePicker
-                name="employee.joining_date"
+                name="employee.joing_date"
                 label="Date Of Joining"
                 required={true}
               />
@@ -215,7 +226,6 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
             <Grid item xs={12} sm={12} md={4}>
               <BCInput
                 name="employee.bankName"
-            
                 label="Bank Name"
                 fullWidth={true}
                 sx={{ mb: 2 }}
@@ -224,8 +234,6 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
             <Grid item xs={12} sm={12} md={4}>
               <BCInput
                 name="employee.bankAccountNumber"
-                type="number"
-               
                 label="Account Number"
                 fullWidth={true}
                 sx={{ mb: 2 }}

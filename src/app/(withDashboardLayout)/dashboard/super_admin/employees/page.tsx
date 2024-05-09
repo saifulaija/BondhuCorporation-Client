@@ -42,7 +42,8 @@ const EmployeePage = () => {
   const { data, isLoading } = useGetAllEmployeesQuery({...query});
   const [deleteAdmin] = useDeleteAdminsMutation();
 
-  const admins = data?.employees;
+  const employees = data?.employees;
+  console.log(employees)
 
   const meta = data?.meta;
 
@@ -54,7 +55,7 @@ const EmployeePage = () => {
     { field: "contactNumber", headerName: "Contact Number", flex: 1 },
 
     { field: "designation", headerName: "Designation", flex: 1 },
-    { field: "joining_date", headerName: "Joining Date", flex: 1 },
+    { field: "joing_date", headerName: "Joining Date", flex: 1 },
     { field: "salary", headerName: "Salary", flex: 1 },
 
 
@@ -101,7 +102,7 @@ const EmployeePage = () => {
   return (
     <Box mt={2}>
        <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Button onClick={() => setIsModalOpen(true)}>Create New Employee</Button>
+        <Button startIcon={<AddIcon/>} onClick={() => setIsModalOpen(true)}>Create New Employee</Button>
         <EmployeeModal open={isModalOpen} setOpen={setIsModalOpen} />
         <TextField
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -113,7 +114,7 @@ const EmployeePage = () => {
       {!isLoading ? (
         <Box sx={{ my: 3 }}>
           <DataGrid
-            rows={admins}
+            rows={employees}
             columns={columns}
             hideFooter={true}
             autoHeight={true}

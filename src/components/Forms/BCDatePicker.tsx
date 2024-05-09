@@ -97,7 +97,7 @@ const BCDatePicker = ({
             <DesktopDatePicker
               label={label}
               timezone="system"
-              disablePast
+              
               {...field}
               onChange={(date) => onChange(date)}
               // value={Date.now()}
