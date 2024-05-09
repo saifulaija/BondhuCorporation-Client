@@ -28,7 +28,7 @@ import AddIcon from "@mui/icons-material/Add";
 import CustomLoader from "@/components/Shared/UI/CustomLoader/CustomLoader";
 import Link from "next/link";
 import EmployeeModal from "./components/EmployeeModal";
-import { useGetAllEmployeesQuery } from "@/redux/features/employee/employeeApi";
+import { useDeleteEmployeesMutation, useGetAllEmployeesQuery } from "@/redux/features/employee/employeeApi";
 import { useDebounced } from "@/redux/hooks";
 
 const EmployeePage = () => {
@@ -40,7 +40,7 @@ const EmployeePage = () => {
     query["searchTerm"] = searchTerm;
   }
   const { data, isLoading } = useGetAllEmployeesQuery({...query});
-  const [deleteAdmin] = useDeleteAdminsMutation();
+  const [deleteEmployee] = useDeleteEmployeesMutation();
 
   const employees = data?.employees;
   console.log(employees)
@@ -89,10 +89,10 @@ const EmployeePage = () => {
   const handleDelete = async (id: string) => {
     // console.log(id);
     try {
-      const res = await deleteAdmin(id).unwrap();
+      const res = await deleteEmployee(id).unwrap();
       // console.log(res);
       if (res?.id) {
-        toast.success("Admin deleted successfully!!!");
+        toast.success("Employee deleted successfully!!!");
       }
     } catch (err: any) {
       console.error(err.message);

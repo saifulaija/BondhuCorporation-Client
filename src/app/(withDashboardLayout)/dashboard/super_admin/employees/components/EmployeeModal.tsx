@@ -40,7 +40,7 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
     const data = modifyPayload(values);
     try {
       const res = await createEmployee(data).unwrap();
-      console.log(res);
+     
       if (res?.id) {
         toast.success("Employee created successfully!!!");
         setOpen(false);
