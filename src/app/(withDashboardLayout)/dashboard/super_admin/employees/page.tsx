@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   ButtonGroup,
-
   Fab,
   IconButton,
   InputAdornment,
@@ -16,10 +15,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
-import {
-  useDeleteAdminsMutation,
-
-} from "@/redux/features/admin/adminApi";
+import { useDeleteAdminsMutation } from "@/redux/features/admin/adminApi";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import ClearIcon from "@mui/icons-material/Clear";
 
@@ -28,8 +24,12 @@ import AddIcon from "@mui/icons-material/Add";
 import CustomLoader from "@/components/Shared/UI/CustomLoader/CustomLoader";
 import Link from "next/link";
 import EmployeeModal from "./components/EmployeeModal";
-import { useDeleteEmployeesMutation, useGetAllEmployeesQuery } from "@/redux/features/employee/employeeApi";
+import {
+  useDeleteEmployeesMutation,
+  useGetAllEmployeesQuery,
+} from "@/redux/features/employee/employeeApi";
 import { useDebounced } from "@/redux/hooks";
+
 
 const EmployeePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,11 +39,11 @@ const EmployeePage = () => {
   if (!!debounceTerm) {
     query["searchTerm"] = searchTerm;
   }
-  const { data, isLoading } = useGetAllEmployeesQuery({...query});
+  const { data, isLoading } = useGetAllEmployeesQuery({ ...query });
   const [deleteEmployee] = useDeleteEmployeesMutation();
 
   const employees = data?.employees;
-  console.log(employees)
+ 
 
   const meta = data?.meta;
 
@@ -57,7 +57,6 @@ const EmployeePage = () => {
     { field: "designation", headerName: "Designation", flex: 1 },
     { field: "joing_date", headerName: "Joining Date", flex: 1 },
     { field: "salary", headerName: "Salary", flex: 1 },
-
 
     {
       field: "action",
@@ -101,13 +100,35 @@ const EmployeePage = () => {
 
   return (
     <Box mt={2}>
-       <Stack direction="row" justifyContent="space-between" alignItems="center">
+      {/* <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Button startIcon={<AddIcon/>} onClick={() => setIsModalOpen(true)}>Create New Employee</Button>
         <EmployeeModal open={isModalOpen} setOpen={setIsModalOpen} />
         <TextField
           onChange={(e) => setSearchTerm(e.target.value)}
           size="small"
-          placeholder="search doctors"
+          placeholder="search employee......"
+        />
+      </Stack> */}
+
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        spacing={2}
+      >
+        <Button startIcon={<AddIcon />} onClick={() => setIsModalOpen(true)}>
+          Create New Employee
+        </Button>
+        <EmployeeModal open={isModalOpen} setOpen={setIsModalOpen} />
+        <TextField
+          onChange={(e) => setSearchTerm(e.target.value)}
+          size="small"
+          placeholder="Search employee..."
+          InputProps={{
+            startAdornment: (
+              <SearchIcon sx={{ color: "action.active", mr: 1 }} />
+            ),
+          }}
         />
       </Stack>
 

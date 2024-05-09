@@ -257,7 +257,7 @@ const EmployeeUpdatePage = ({ params }: TProps) => {
                 sx={{ maxWidth: "400px", width: "100%" }}
                 type="submit"
               >
-                Create
+                Update 
               </Button>
             </Box>
           </BCForm>

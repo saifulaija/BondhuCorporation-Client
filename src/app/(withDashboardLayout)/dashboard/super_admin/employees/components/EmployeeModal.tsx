@@ -73,7 +73,7 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
   };
 
   return (
-    <BCFullScreenModal open={open} setOpen={setOpen} title="Create New Admin">
+    <BCFullScreenModal open={open} setOpen={setOpen} title="Create New Employee">
       <Container maxWidth="lg">
         <BCForm onSubmit={handleFormSubmit} defaultValues={defaultValues}>
           <Divider>

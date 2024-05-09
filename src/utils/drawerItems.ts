@@ -12,12 +12,20 @@ import LocalMallIcon from '@mui/icons-material/LocalMall';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import PersonIcon from '@mui/icons-material/Person';
 
 import TryIcon from "@mui/icons-material/Try";
 import { USER_ROLE } from "@/constants/role";
 
 export const drawerItems = (role: UserRole): DrawerItem[] => {
   const roleMenus: DrawerItem[] = [];
+  const defaultManus=[
+    {
+      title: "Profile",
+      path: `${role}/profile`,
+      icon: PersonIcon,
+    },
+  ]
 
   switch (role) {
     case USER_ROLE.SUPER_ADMIN:
@@ -97,5 +105,5 @@ export const drawerItems = (role: UserRole): DrawerItem[] => {
       break;
   }
 
-  return [...roleMenus];
+  return [...roleMenus,...defaultManus];
 };
