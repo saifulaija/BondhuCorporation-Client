@@ -34,7 +34,7 @@ export const drawerItems = (role: UserRole): DrawerItem[] => {
         },
         {
           title: "Employees",
-          path: `${role}/add_employee`,
+          path: `${role}/employees`,
           icon: GroupIcon,
         }
       );

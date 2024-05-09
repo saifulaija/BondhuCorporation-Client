@@ -15,10 +15,10 @@ import {
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import AdminModal from "./components/AdminModal";
+
 import {
   useDeleteAdminsMutation,
-  useGetAllAdminsQuery,
+
 } from "@/redux/features/admin/adminApi";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -27,14 +27,22 @@ import { toast } from "sonner";
 import AddIcon from "@mui/icons-material/Add";
 import CustomLoader from "@/components/Shared/UI/CustomLoader/CustomLoader";
 import Link from "next/link";
+import EmployeeModal from "./components/EmployeeModal";
+import { useGetAllEmployeesQuery } from "@/redux/features/employee/employeeApi";
+import { useDebounced } from "@/redux/hooks";
 
-const AdminPage = () => {
+const EmployeePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { data, isLoading } = useGetAllAdminsQuery({});
+  const query: Record<string, any> = {};
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const debounceTerm = useDebounced({ searchQuery: searchTerm, delay: 700 });
+  if (!!debounceTerm) {
+    query["searchTerm"] = searchTerm;
+  }
+  const { data, isLoading } = useGetAllEmployeesQuery({...query});
   const [deleteAdmin] = useDeleteAdminsMutation();
 
-  const admins = data?.admins;
+  const admins = data?.employees;
 
   const meta = data?.meta;
 
@@ -44,7 +52,11 @@ const AdminPage = () => {
     { field: "qualification", headerName: "Qualification", flex: 1 },
     { field: "gender", headerName: "Gender", flex: 1 },
     { field: "contactNumber", headerName: "Contact Number", flex: 1 },
-    { field: "maritalStatus", headerName: "MaritalStatus", flex: 1 },
+
+    { field: "designation", headerName: "Designation", flex: 1 },
+    { field: "joining_date", headerName: "Joining Date", flex: 1 },
+    { field: "salary", headerName: "Salary", flex: 1 },
+
 
     {
       field: "action",
@@ -87,25 +99,15 @@ const AdminPage = () => {
   };
 
   return (
-    <Box>
-      <Stack
-        spacing={1} // Increased spacing between elements
-        direction="column" // Stack items vertically
-        alignItems="center" // Center items horizontally
-        mt={1} // Add margin at the top
-      >
-        <Typography variant="h4" color="primary" gutterBottom>
-          Admin Management
-        </Typography>
-        <Fab
-          onClick={() => setIsModalOpen(true)}
-          color="primary"
-          variant="circular"
+    <Box mt={2}>
+       <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Button onClick={() => setIsModalOpen(true)}>Create New Employee</Button>
+        <EmployeeModal open={isModalOpen} setOpen={setIsModalOpen} />
+        <TextField
+          onChange={(e) => setSearchTerm(e.target.value)}
           size="small"
-        >
-          <AddIcon />
-        </Fab>
-        <AdminModal open={isModalOpen} setOpen={setIsModalOpen} />
+          placeholder="search doctors"
+        />
       </Stack>
 
       {!isLoading ? (
@@ -124,4 +126,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default EmployeePage;
