@@ -34,4 +34,5 @@ export type IGenericErrorMessage = {
 };
 
 export const Gender = ["MALE", "FEMALE"];
+export const Designation = ["HEAD_OF_SELLS", "SELLS_MANAGER","STORE_MANAGER","HEAD_OF_HR"];
 export const MaritalStatus = ["MARRIED", "UNMARRIED"];

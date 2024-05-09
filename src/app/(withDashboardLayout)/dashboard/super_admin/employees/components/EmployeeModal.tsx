@@ -1,6 +1,5 @@
-
-import { Box, Button, Container, Grid } from "@mui/material";
-import { Gender, MaritalStatus } from "@/types/common";
+import { Box, Button, Container, Divider, Grid, Typography } from "@mui/material";
+import { Designation, Gender, MaritalStatus } from "@/types/common";
 import { FieldValues } from "react-hook-form";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -14,6 +13,8 @@ import BCSelectField from "@/components/Forms/BCSelectField";
 import BCFileUploader from "@/components/Forms/BCFileUploader";
 import { modifyPayload } from "@/utils/modifyPayload";
 import { useCreateEmployeeMutation } from "@/redux/features/employee/employeeApi";
+import BCDatePicker from "@/components/Forms/BCDatePicker";
+import { dateFormatter } from "@/utils/dateFormatter";
 
 type TProps = {
   open: boolean;
@@ -21,16 +22,19 @@ type TProps = {
 };
 
 const EmployeeModal = ({ open, setOpen }: TProps) => {
-  const [createAdmin] = useCreateEmployeeMutation();
+  const [createEmployee] = useCreateEmployeeMutation();
   const handleFormSubmit = async (values: FieldValues) => {
-  
-
+    values.employee.dob = dateFormatter(values.employee.dob);
+    values.employee.joining_date = dateFormatter(values.employee.joining_date);
+    values.employee.salary = Number(values.employee.salary);
+    values.employee.experience = Number(values.employee.experience);
+    console.log(values);
     const data = modifyPayload(values);
     try {
-      const res = await createAdmin(data).unwrap();
+      const res = await createEmployee(data).unwrap();
       console.log(res);
       if (res?.id) {
-        toast.success("Admin created successfully!!!");
+        toast.success("Employee created successfully!!!");
         setOpen(false);
       }
     } catch (err: any) {
@@ -39,7 +43,7 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
   };
 
   const defaultValues = {
-    admin: {
+    employee: {
       email: "",
       name: "",
       contactNumber: "",
@@ -49,6 +53,14 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
       maritalStatus: "",
 
       qualification: "",
+      designation: "",
+      joining_date: "",
+      dob: "",
+      experience: 0,
+      emergencyContactName: "",
+      salary: 0,
+      bankAccountNumber: "",
+      bankName: "",
 
       profilePhoto: "",
     },
@@ -59,18 +71,22 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
     <BCFullScreenModal open={open} setOpen={setOpen} title="Create New Admin">
       <Container maxWidth="lg">
         <BCForm onSubmit={handleFormSubmit} defaultValues={defaultValues}>
-          <Grid container spacing={2} sx={{ my: 5 }}>
+          <Divider>
+            <Typography variant="h5" fontWeight={300}>Personal Information</Typography>
+          </Divider>
+          <Grid container spacing={2} sx={{ my: 1 }}>
             <Grid item xs={12} sm={12} md={4}>
               <BCInput
-                name="admin.name"
+                name="employee.name"
                 label="Name"
                 fullWidth={true}
+                required={true}
                 sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <BCInput
-                name="admin.email"
+                name="employee.email"
                 type="email"
                 label="Email"
                 fullWidth={true}
@@ -85,31 +101,38 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
                 type="password"
                 label="Password"
                 fullWidth={true}
+                required={true}
                 sx={{ mb: 2 }}
               />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <BCSelectField
+                items={MaritalStatus}
+                name="employee.maritalStatus"
+                label="MaritalStatus"
+                required={true}
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <BCDatePicker name="employee.dob"  required={true} label="Date Of Birth" />
             </Grid>
 
             <Grid item xs={12} sm={12} md={4}>
               <BCInput
-                name="admin.contactNumber"
+                name="employee.contactNumber"
                 label="Contract Number"
                 fullWidth={true}
+                required={true}
                 sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <BCInput
-                name="admin.address"
-                label="Address"
+                name="employee.emergencyContactNumber"
+                label="Emergency Contact Number"
                 fullWidth={true}
-                sx={{ mb: 2 }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={4}>
-              <BCInput
-                name="admin.qualification"
-                label="Qualification"
-                fullWidth={true}
+                required={true}
                 sx={{ mb: 2 }}
               />
             </Grid>
@@ -117,32 +140,114 @@ const EmployeeModal = ({ open, setOpen }: TProps) => {
             <Grid item xs={12} sm={12} md={4}>
               <BCSelectField
                 items={Gender}
-                name="admin.gender"
+                name="employee.gender"
                 label="Gender"
+                required={true}
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <BCInput
+                name="employee.address"
+                label="Address"
+                fullWidth={true}
+                required={true}
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+          </Grid>
+
+       
+          <Divider>
+            <Typography variant="h5" fontWeight={300}>Professional Information</Typography>
+          </Divider>
+
+          <Grid container spacing={2} sx={{ my: 1 }}>
+            <Grid item xs={12} sm={12} md={4}>
+              <BCInput
+                name="employee.qualification"
+                label="Qualification"
+                fullWidth={true}
+                required={true}
                 sx={{ mb: 2 }}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <BCSelectField
-                items={MaritalStatus}
-                name="admin.maritalStatus"
-                label="MaritalStatus"
+                items={Designation}
+                name="employee.designation"
+                label="Designation"
+                required={true}
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+            {/* <Grid item xs={12} sm={12} md={4}>
+              <BCDatePicker name="employee.joining_date" label="Date Of Joining" />
+            </Grid> */}
+            <Grid item xs={12} sm={12} md={4}>
+              <BCInput
+                name="employee.salary"
+                type="number"
+                label="Salary"
+           
+                fullWidth={true}
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <BCDatePicker
+                name="employee.joining_date"
+                label="Date Of Joining"
+                required={true}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <BCInput
+                name="employee.experience"
+                type="number"
+                label="Experience"
+                required={true}
+                fullWidth={true}
                 sx={{ mb: 2 }}
               />
             </Grid>
 
-           
+            <Grid item xs={12} sm={12} md={4}>
+              <BCInput
+                name="employee.bankName"
+            
+                label="Bank Name"
+                fullWidth={true}
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <BCInput
+                name="employee.bankAccountNumber"
+                type="number"
+               
+                label="Account Number"
+                fullWidth={true}
+                sx={{ mb: 2 }}
+              />
+            </Grid>
           </Grid>
 
-         <Box sx={{display:'flex',justifyContent:'center', alignItems:'center'}}>
-         <Button
-            startIcon={<AddIcon />}
-            sx={{ maxWidth: "400px", width: "100%" }}
-            type="submit"
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            Create
-          </Button>
-         </Box>
+            <Button
+              startIcon={<AddIcon />}
+              sx={{ maxWidth: "400px", width: "100%" }}
+              type="submit"
+            >
+              Create
+            </Button>
+          </Box>
         </BCForm>
       </Container>
     </BCFullScreenModal>

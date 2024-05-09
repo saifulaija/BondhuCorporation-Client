@@ -10,10 +10,10 @@ const CustomLoader = () => {
         justifyContent: "center",
         alignItems: "center",
         height: "100vh",
-        color: "text.secondary", // Set color to secondary text color
+        color: "text.secondary", 
       }}
     >
-      <CircularProgress color="primary" size={50} thickness={3} />
+      <CircularProgress color="primary" size={40} thickness={2} />
     
     </Box>
   );

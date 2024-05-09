@@ -67,7 +67,7 @@ const EmployeePage = () => {
       renderCell: ({ row }) => {
         return (
           <ButtonGroup>
-            <Link href={`/dashboard/super_admin/admins/edit/${row?.id}`}>
+            <Link href={`/dashboard/super_admin/employees/edit/${row?.id}`}>
               <IconButton aria-label="edit">
                 <EditNoteIcon />
               </IconButton>
