@@ -72,6 +72,12 @@ const SuperAdminInformation = ({ data }: any) => {
             </StyledInformationBox>
             <StyledInformationBox>
                <Typography variant='caption' color='secondary'>
+                  Qualification
+               </Typography>
+               <Typography>{data?.qualification}</Typography>
+            </StyledInformationBox>
+            <StyledInformationBox>
+               <Typography variant='caption' color='secondary'>
                   Status
                </Typography>
                <Typography>{data?.status}</Typography>

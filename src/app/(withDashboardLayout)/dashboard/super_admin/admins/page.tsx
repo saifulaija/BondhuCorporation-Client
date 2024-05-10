@@ -4,10 +4,10 @@ import {
   Box,
   Button,
   ButtonGroup,
-
   Fab,
   IconButton,
   InputAdornment,
+  Pagination,
   Stack,
   TextField,
   Typography,
@@ -31,7 +31,15 @@ import Link from "next/link";
 const AdminPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading } = useGetAllAdminsQuery({});
+  const query: Record<string, any> = {};
+
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(2);
+
+  query["page"] = page;
+  query["limit"] = limit;
+
+  const { data, isLoading } = useGetAllAdminsQuery({...query});
   const [deleteAdmin] = useDeleteAdminsMutation();
 
   const admins = data?.admins;
@@ -73,6 +81,16 @@ const AdminPage = () => {
     },
   ];
 
+  let pageCount: number;
+
+  if (meta?.total) {
+    pageCount = Math.ceil(meta.total / limit);
+  }
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   const handleDelete = async (id: string) => {
     // console.log(id);
     try {
@@ -90,11 +108,12 @@ const AdminPage = () => {
     <Box>
       <Stack
         spacing={1} // Increased spacing between elements
-        direction="column" // Stack items vertically
-        alignItems="center" // Center items horizontally
+        direction="row" // Stack items vertically
+        alignItems="center" 
+      justifyContent='space-between'
         mt={1} // Add margin at the top
       >
-        <Typography variant="h4" color="primary" gutterBottom>
+        <Typography variant="h5" color="primary" gutterBottom>
           Admin Management
         </Typography>
         <Fab
@@ -113,8 +132,29 @@ const AdminPage = () => {
           <DataGrid
             rows={admins}
             columns={columns}
-            hideFooter={true}
+           
             autoHeight={true}
+            hideFooterPagination
+            slots={{
+              footer: () => {
+                return (
+                  <Box
+                    sx={{
+                      mb: 2,
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Pagination
+                      color="primary"
+                      count={pageCount}
+                      page={page}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                );
+              },
+            }}
           />
         </Box>
       ) : (

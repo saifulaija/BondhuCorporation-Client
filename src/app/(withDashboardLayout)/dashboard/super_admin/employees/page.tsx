@@ -5,8 +5,10 @@ import {
   Button,
   ButtonGroup,
   Fab,
+  Grid,
   IconButton,
   InputAdornment,
+  Pagination,
   Stack,
   TextField,
   Typography,
@@ -30,10 +32,15 @@ import {
 } from "@/redux/features/employee/employeeApi";
 import { useDebounced } from "@/redux/hooks";
 
-
 const EmployeePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const query: Record<string, any> = {};
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(3);
+
+  query["page"] = page;
+  query["limit"] = limit;
+
   const [searchTerm, setSearchTerm] = useState<string>("");
   const debounceTerm = useDebounced({ searchQuery: searchTerm, delay: 700 });
   if (!!debounceTerm) {
@@ -43,7 +50,6 @@ const EmployeePage = () => {
   const [deleteEmployee] = useDeleteEmployeesMutation();
 
   const employees = data?.employees;
- 
 
   const meta = data?.meta;
 
@@ -85,6 +91,16 @@ const EmployeePage = () => {
     },
   ];
 
+  let pageCount: number;
+
+  if (meta?.total) {
+    pageCount = Math.ceil(meta.total / limit);
+  }
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   const handleDelete = async (id: string) => {
     // console.log(id);
     try {
@@ -110,35 +126,67 @@ const EmployeePage = () => {
         />
       </Stack> */}
 
-      <Stack
+      {/* <Stack
         direction="row"
-        justifyContent="space-between"
+        // justifyContent="space-between"
         alignItems="center"
         spacing={2}
-      >
-        <Button startIcon={<AddIcon />} onClick={() => setIsModalOpen(true)}>
-          Create New Employee
-        </Button>
+      > */}
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={9}>
+            <TextField
+              onChange={(e) => setSearchTerm(e.target.value)}
+              sx={{borderRadius:'30px'}}
+              size="small"
+              fullWidth={true}
+              placeholder="Search employee..."
+              InputProps={{
+                startAdornment: (
+                  <SearchIcon sx={{ color: "action.active", mr: 1 }} />
+                ),
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <Button
+              startIcon={<AddIcon />}
+              onClick={() => setIsModalOpen(true)}
+            >
+              Create New Employee
+            </Button>
+          </Grid>
+        </Grid>
+
         <EmployeeModal open={isModalOpen} setOpen={setIsModalOpen} />
-        <TextField
-          onChange={(e) => setSearchTerm(e.target.value)}
-          size="small"
-          placeholder="Search employee..."
-          InputProps={{
-            startAdornment: (
-              <SearchIcon sx={{ color: "action.active", mr: 1 }} />
-            ),
-          }}
-        />
-      </Stack>
+      {/* </Stack> */}
 
       {!isLoading ? (
         <Box sx={{ my: 3 }}>
           <DataGrid
             rows={employees}
             columns={columns}
-            hideFooter={true}
             autoHeight={true}
+            hideFooterPagination
+            slots={{
+              footer: () => {
+                return (
+                  <Box
+                    sx={{
+                      mb: 2,
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Pagination
+                      color="primary"
+                      count={pageCount}
+                      page={page}
+                      onChange={handleChange}
+                    />
+                  </Box>
+                );
+              },
+            }}
           />
         </Box>
       ) : (

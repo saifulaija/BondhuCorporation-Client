@@ -21,7 +21,7 @@ export const profileAPi = baseApi.injectEndpoints({
                contentType: 'multipart/form-data',
             };
          },
-         invalidatesTags: [tagTypes.user],
+         invalidatesTags: [tagTypes.user,tagTypes.admin],
       }),
    }),
 });
