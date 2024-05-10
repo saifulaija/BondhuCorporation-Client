@@ -13,6 +13,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import CorporateFareIcon from '@mui/icons-material/CorporateFare';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonIcon from '@mui/icons-material/Person';
+import KeyIcon from "@mui/icons-material/Key";
 
 import TryIcon from "@mui/icons-material/Try";
 import { USER_ROLE } from "@/constants/role";
@@ -20,6 +21,11 @@ import { USER_ROLE } from "@/constants/role";
 export const drawerItems = (role: UserRole): DrawerItem[] => {
   const roleMenus: DrawerItem[] = [];
   const defaultManus=[
+    {
+      title: "Change Password",
+      path: `change-password`,
+      icon: KeyIcon,
+    },
     {
       title: "Profile",
       path: `${role}/profile`,

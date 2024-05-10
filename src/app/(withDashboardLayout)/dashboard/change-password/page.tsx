@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import BCForm from "@/components/Forms/BCForm";
 import BCInput from "@/components/Forms/BCInput";
 import { useChangePasswordMutation } from "@/redux/api/authApi";
+import logoutUser from "@/services/actions/logoutUser";
 
 const validationSchema = z.object({
   oldPassword: z.string().min(6, "Must be at least 6 characters long"),
@@ -24,8 +25,9 @@ const ChangePassword = () => {
   const onSubmit = async (values: FieldValues) => {
     try {
       const res = await changePassword(values);
-      if (res?.data?.status === 200) {
+      if ( 'data' in res && res?.data?.status === 200) {
         toast.success("password changed successfully!!");
+        logoutUser(router)
       } else {
         throw new Error("Incorrect old password");
       }
