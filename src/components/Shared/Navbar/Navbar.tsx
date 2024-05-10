@@ -1,54 +1,73 @@
 "use client";
 
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
-import { Box, Container, Stack, Typography } from "@mui/material";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 
 import assets from "@/assets";
+import useUserInfo from "@/hooks/useUserInfo";
+import { useRouter } from "next/navigation";
+import logoutUser from "@/services/actions/logoutUser";
 
 const Navbar = () => {
-  const AuthButton = dynamic(() => import("../UI/AuthButton/AuthButton"), {
-    ssr: false,
-  });
+  const userInfo = useUserInfo();
 
+  const router = useRouter();
+  const handleLogout = () => {
+    logoutUser(router);
+  };
   return (
-   <Box sx={{borderBottom:'1px solid lightgray',   background:"#F4F7FE",}}>
-     <Container>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        py={2}
-      >
-        <Link href="/">
-          <Image src={assets.images.logo} width={100} height={90} alt="logo" />
-        </Link>
-        <Stack direction="row" gap={4} justifyContent="space-between">
-          <Typography component={Link} href="/consultation">
-            Home
-          </Typography>
-          <Typography component={Link} href="/consultation">
-            Products
-          </Typography>
-          <Typography component={Link} href="/consultation">
-            Sells
-          </Typography>
-          <Typography component={Link} href="/consultation">
-            About Us
-          </Typography>
-          <Typography component={Link} href="/consultation">
-            Contact Us
-          </Typography>
-          <Typography component={Link} href="/consultation">
-            Dashboard
-          </Typography>
+    <Box sx={{ borderBottom: "1px solid lightgray", background: "#F4F7FE" }}>
+      <Container>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          py={2}
+        >
+          <Link href="/">
+            <Image
+              src={assets.images.logo}
+              width={100}
+              height={90}
+              alt="logo"
+            />
+          </Link>
+          <Stack direction="row" gap={4} justifyContent="space-between">
+            <Typography component={Link} href="/consultation">
+              Home
+            </Typography>
+            <Typography component={Link} href="/consultation">
+              Products
+            </Typography>
+            <Typography component={Link} href="/consultation">
+              Sells
+            </Typography>
+            <Typography component={Link} href="/consultation">
+              About Us
+            </Typography>
+            <Typography component={Link} href="/consultation">
+              Contact Us
+            </Typography>
+            {userInfo?.userId && (
+              <Typography component={Link} href="/dashboard">
+                Dashboard
+              </Typography>
+            )}
+          </Stack>
+          {userInfo?.userId ? (
+            <Button color="warning" onClick={() => handleLogout()}>
+              Logout
+            </Button>
+          ) : (
+            <Button component={Link} href="/login">
+              Login
+            </Button>
+          )}
         </Stack>
-        <AuthButton />
-      </Stack>
-    </Container>
-   </Box>
+      </Container>
+    </Box>
   );
 };
 
