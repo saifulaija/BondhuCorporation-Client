@@ -9,9 +9,13 @@ import assets from "@/assets";
 import useUserInfo from "@/hooks/useUserInfo";
 import { useRouter } from "next/navigation";
 import logoutUser from "@/services/actions/logoutUser";
+import { getUserInfo, isLoggedIn } from "@/services/auth.services";
 
 const Navbar = () => {
-  const userInfo = useUserInfo();
+  const userInfo = getUserInfo();
+
+  const user = isLoggedIn();
+  console.log(user, "userinfo");
 
   const router = useRouter();
   const handleLogout = () => {
@@ -56,8 +60,9 @@ const Navbar = () => {
               </Typography>
             )}
           </Stack>
+
           {userInfo?.userId ? (
-            <Button color="warning" onClick={() => handleLogout()}>
+            <Button color="warning" onClick={handleLogout}>
               Logout
             </Button>
           ) : (

@@ -23,7 +23,7 @@ const useUserInfo = (): any | string => {
             };
             setUserInfo(userInfo);
          } else {
-            setUserInfo('');
+            setUserInfo(null);
          }
       };
 

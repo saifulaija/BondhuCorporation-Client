@@ -16,7 +16,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { userLogin } from "@/services/actions/userLogin";
 import { storeUserInfo } from "@/services/auth.services";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
 
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,20 +36,23 @@ const defaultValues = {
 };
 const LoginPage = () => {
   const [error, setError] = useState('');
-  const router = useRouter();
+
+
 
   const handleLogin = async (values: FieldValues) => {
     try {
       const res = await userLogin(values);
+      console.log(res,'error-------------')
       if (res?.data?.accessToken) {
         toast.success(res?.message);
         storeUserInfo({ accessToken: res?.data?.accessToken });
         // router.push("/dashboard");
       } else {
-        setError(res?.message);
+        setError(res?.message || 'An unknown error occurred');
       }
     } catch (err: any) {
       console.log(err.message);
+      setError(err.message)
     }
   };
   return (
@@ -85,11 +88,11 @@ const LoginPage = () => {
               Login To Bondhu Corporation
             </Typography>
           </Stack>
-          <Box>
+        
            {
             error && (<Alert severity="error">{error}</Alert>)
            }
-          </Box>
+         
           <BCForm
             onSubmit={handleLogin}
             resolver={zodResolver(validationSchema)}
