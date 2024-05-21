@@ -54,14 +54,14 @@ const Navbar = () => {
             <Typography component={Link} href="/consultation">
               Contact Us
             </Typography>
-            {userInfo?.userId && (
+            {userInfo?.role!== "subscriber" && (
               <Typography component={Link} href="/dashboard">
                 Dashboard
               </Typography>
             )}
           </Stack>
 
-          {userInfo?.userId ? (
+          {isLoggedIn() ? (
             <Button color="warning" onClick={handleLogout}>
               Logout
             </Button>

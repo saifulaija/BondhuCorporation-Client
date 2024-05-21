@@ -15,6 +15,8 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonIcon from '@mui/icons-material/Person';
 import KeyIcon from "@mui/icons-material/Key";
 
+import DatabaseBackup from 'lucide-react'
+
 import TryIcon from "@mui/icons-material/Try";
 import { USER_ROLE } from "@/constants/role";
 
@@ -49,6 +51,11 @@ export const drawerItems = (role: UserRole): DrawerItem[] => {
         {
           title: "Employees",
           path: `${role}/employees`,
+          icon: GroupIcon,
+        },
+        {
+          title: "Stores",
+          path: `${role}/stores`,
           icon: GroupIcon,
         }
       );
